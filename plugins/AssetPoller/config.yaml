@@ -1,1 +1,21 @@
 name: Asset Poller
+version: 0.1
+
+config_settings:
+  AssetPollerDirectory:
+    default: asset_import
+  AssetPollerDefaultBlog:
+    default: 0
+
+settings:
+  directory:
+    scope: blog
+  destination_path_template:
+    scope: blog
+    default: assets
+
+tasks:
+  asset_poller_poll_directory:
+    frequency: 900
+    code: $AssetPoller::AssetPoller::Tasks::poll_directory
+

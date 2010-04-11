@@ -10,3 +10,9 @@
    label="Destination Path">
   <input type="text" name="destination_path_template" value="<mt:var name="destination_path_template" escape="html">" />
 </mtapp:setting>
+
+<mtapp:setting
+   id="remove_files"
+   label="Remove Imported Files">
+  <input type="checkbox" class="cb" name="remove_files" value="1"<mt:if name="remove_files"> checked="checked"</mt:if>/>
+</mtapp:setting>

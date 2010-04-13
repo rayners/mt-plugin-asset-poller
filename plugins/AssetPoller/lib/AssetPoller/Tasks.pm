@@ -1,4 +1,3 @@
-
 package AssetPoller::Tasks;
 
 use strict;
@@ -32,6 +31,10 @@ PATH:
             'blog:' . $blog_id );
         my $remove_files
             = $p->get_config_value( 'remove_files', 'blog:' . $blog_id );
+        my $default_tags
+            = $p->get_config_value( 'default_tags', 'blog:' . $blog_id );
+
+        my @tags = split( /\s*,\s*/, $default_tags );
 
         # directory is relative to MT dir
         # unless absolute
@@ -57,7 +60,7 @@ PATH:
             # skip if there's already an asset for this filename
             next
                 if MT::Asset->exist(
-                        { blog_id => $blog->id, file_name => $f } );
+                { blog_id => $blog->id, file_name => $f } );
 
             # turn the file into an asset
             my $asset_pkg = MT::Asset->handler_for_file($f);
@@ -73,6 +76,7 @@ PATH:
             $asset->file_ext($ext);
             $asset->file_path($file);
             $asset->url('');
+            $asset->tags(@tags);
             $asset->save or die $asset->errstr;
 
             # move the file into the directory dictacted by the template

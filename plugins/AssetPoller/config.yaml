@@ -17,6 +17,9 @@ settings:
   remove_files:
     scope: blog
     default: 1
+  default_tags:
+    scope: blog
+    default: ''
 
 tasks:
   asset_poller_poll_directory:

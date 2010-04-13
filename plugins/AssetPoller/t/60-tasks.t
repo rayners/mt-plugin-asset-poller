@@ -5,7 +5,8 @@ use strict;
 use warnings;
 
 use MT::Test qw( :db :data );
-use Test::More tests => 19;
+use Test::More tests => 20;
+use Test::Deep;
 
 require MT::Blog;
 my $blog = MT::Blog->load(1);
@@ -13,7 +14,8 @@ my $blog = MT::Blog->load(1);
 my $p = MT->component('assetpoller');
 
 # first try it with the non-destructive (but non-default!) option
-$p->set_config_value( 'remove_files', 0, 'blog:1' );
+$p->set_config_value( 'remove_files', 0,     'blog:1' );
+$p->set_config_value( 'default_tags', 'a,b', 'blog:1' );
 
 require MT::Asset;
 ok( !MT::Asset->exist( { blog_id => 1, file_name => 'test.txt' } ),
@@ -54,6 +56,7 @@ is( $asset->url,
     'http://narnia.na/nana/assets/test.txt',
     "calculated url is correct"
 );
+cmp_bag( [ $asset->tags ], [ 'a', 'b' ], "Asset has correct default tags" );
 
 MT::Session->remove( { id => 'Task:asset_poller_poll_directory' } );
 

@@ -1,4 +1,6 @@
 name: Asset Poller
+description: 'The Asset Poller plugin adds a periodic task to Movable Type that will create assets based on contents of a given directory. The files in that directory will be moved to <site_root>/assets by default.'
+plugin_link: http://github.com/rayners/mt-plugin-asset-poller
 version: 0.2.0
 
 config_settings:

@@ -13,6 +13,8 @@ blog_config_template: blog_config.tmpl
 settings:
   directory:
     scope: blog
+  import_updated_files:
+    scope: blog
   destination_path_template:
     scope: blog
     default: assets
@@ -22,6 +24,7 @@ settings:
 
 tasks:
   asset_poller_poll_directory:
-    frequency: 900
+    #frequency: 900
+    frequency: 1
     code: $AssetPoller::AssetPoller::Tasks::poll_directory
 

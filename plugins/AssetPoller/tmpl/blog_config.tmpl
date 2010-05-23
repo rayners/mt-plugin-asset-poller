@@ -16,6 +16,12 @@
 </mtapp:setting>
 
 <mtapp:setting
+   id="import_updated_files"
+   label="Import Updated Files">
+  <input type="checkbox" class="cb" id="import_updated_files" name="import_updated_files" value="1"<mt:if name="import_updated_files"> checked="checked"</mt:if>/> <label for="import_updated_files">If a file found in the Polled Directory location is newer than the asset, import it, updating the original asset.</label>
+</mtapp:setting>
+
+<mtapp:setting
    id="remove_files"
    label="Remove Imported Files">
   <input type="checkbox" class="cb" id="remove_files" name="remove_files" value="1"<mt:if name="remove_files"> checked="checked"</mt:if>/> <label for="remove_files">Remove files from the Polled Directory after they are imported.</label>

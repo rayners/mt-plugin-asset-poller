@@ -1,4 +1,4 @@
-
+cd ..
 use lib qw(t/lib lib extlib);
 
 use strict;

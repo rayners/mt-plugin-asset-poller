@@ -1,10 +1,17 @@
-
 <mtapp:setting
    id="directory"
    label="Polled Directory"
    hint="Specify an absolute or relative directory. A relative directory is relative to the <code>CGIPath</code> configuration directive location."
    show_hint="1">
   <input type="text" name="directory" value="<mt:var name="directory" escape="html">" style="width: 100%;" />
+</mtapp:setting>
+
+<mtapp:setting
+   id="file_filter"
+   label="File Filter"
+   hint="Enter a comma-separated list of file extensions or partial filenames with which to filter the Polled Directory to include only filtered matches. (Examples: <code>txt</code>, <code>jpg</code>, <code>photo</code>.)"
+   show_hint="1">
+  <input type="text" name="file_filter" value="<mt:var name="file_filter" escape="html">" style="width: 100%;" />
 </mtapp:setting>
 
 <mtapp:setting

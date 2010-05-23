@@ -8,15 +8,12 @@ use File::Spec;
 use File::Copy;
 
 use MT::Util qw(ts2epoch epoch2ts);
-
+use MT::Asset;
 
 sub poll_directory {
     my $task = shift;
 
     my $p = $task->{plugin};
-
-    # get the hash
-    #     path_to_check => blog_id
 
     require AssetPoller::Util;
     my $path_to_blog = AssetPoller::Util->path_to_blog || {};
@@ -54,8 +51,26 @@ PATH:
             next FILE if ( $f =~ /^\./ );
             my $file = File::Spec->catfile( $path, $f );
             next FILE unless ( -f $file );
+            
+            # Grab the file filters, so that the polled directory contents can
+            # be properly filtered to find only the desired files.
+            my $file_filter = $p->get_config_value('file_filter', 'blog:'.$blog_id);
+            if ($file_filter) {
+                # Remove any space before or after the comma separator, and build an array.
+                my @file_filters = split(/\s*,\s*/, $file_filter);
+                my $skip;
+                foreach my $filter (@file_filters) {
+                    # Use the $skip "flag" to indicate whether a filter matched.
+                    # If the filter matches the filename, mark it to be skipped.
+                    # (This gives the chance for all filters to run before
+                    # deciding if it should be skipped.) If it's not a match,
+                    # pass the previously-set $skip so that the previous state
+                    # is still saved.
+                    $skip = ( $f =~ /$filter/i ) ? 1 : $skip;
+                }
+                next unless $skip;
+            }
 
-            require MT::Asset;
             my $asset;
             my $asset_pkg;
 
@@ -67,7 +82,8 @@ PATH:
                 my $file_stamp = (stat($file))[9];
 
                 # Grab the existing asset, and its time.
-                $asset = MT->model('asset')->load({ blog_id => $blog_id, file_name => $f });
+                # Use class "*" so that images, files, and any other class of object are returned.
+                $asset = MT->model('asset')->load({ blog_id => $blog_id, class => '*', file_name => $f });
                 if ($asset) {
                     my $existing_stamp = ts2epoch($blog, $asset->modified_on);
 
@@ -85,10 +101,11 @@ PATH:
             }
             else {
                 # Don't import newer files, just ignore them.
+                # Use class "*" so that images, files, and any other class of object are returned.
                 next
                     if MT::Asset->exist(
-                            { blog_id => $blog->id, file_name => $f } );
-                
+                            { blog_id => $blog->id, class => '*', file_name => $f } );
+
                 # But we do want to import any new asset.
                 $asset_pkg = MT::Asset->handler_for_file($f);
                 $asset = $asset_pkg->new();
@@ -155,7 +172,6 @@ PATH:
 
         closedir(ASSET_DIR);
     }
-
 }
 
 1;

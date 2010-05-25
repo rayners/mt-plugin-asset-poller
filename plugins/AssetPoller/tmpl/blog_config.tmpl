@@ -1,20 +1,24 @@
 
 <mtapp:setting
    id="directory"
-   label="Polled Directory">
-  <input type="text" name="directory" value="<mt:var name="directory" escape="html">" />
+   label="Polled Directory"
+   hint="Specify an absolute or relative directory. A relative directory is relative to the <code>CGIPath</code> configuration directive location."
+   show_hint="1">
+  <input type="text" name="directory" value="<mt:var name="directory" escape="html">" style="width: 100%;" />
 </mtapp:setting>
 
 <mtapp:setting
    id="destination_path_template"
-   label="Destination Path">
-  <input type="text" name="destination_path_template" value="<mt:var name="destination_path_template" escape="html">" />
+   label="Destination Path"
+   hint="Specify a destination path. This path specified will be appended to this blog&rsquo;s Site URL."
+   show_hint="1">
+  <input type="text" name="destination_path_template" value="<mt:var name="destination_path_template" escape="html">" style="width: 100%;" />
 </mtapp:setting>
 
 <mtapp:setting
    id="remove_files"
    label="Remove Imported Files">
-  <input type="checkbox" class="cb" name="remove_files" value="1"<mt:if name="remove_files"> checked="checked"</mt:if>/>
+  <input type="checkbox" class="cb" id="remove_files" name="remove_files" value="1"<mt:if name="remove_files"> checked="checked"</mt:if>/> <label for="remove_files">Remove files from the Polled Directory after they are imported.</label>
 </mtapp:setting>
 
 <mtapp:setting

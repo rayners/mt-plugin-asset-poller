@@ -1,4 +1,3 @@
-
 <mtapp:setting
    id="directory"
    label="Polled Directory"
@@ -8,11 +7,25 @@
 </mtapp:setting>
 
 <mtapp:setting
+   id="file_filter"
+   label="File Filter"
+   hint="Enter a comma-separated list of file extensions or partial filenames with which to filter the Polled Directory to include only filtered matches. (Examples: <code>txt</code>, <code>jpg</code>, <code>photo</code>.)"
+   show_hint="1">
+  <input type="text" name="file_filter" value="<mt:var name="file_filter" escape="html">" style="width: 100%;" />
+</mtapp:setting>
+
+<mtapp:setting
    id="destination_path_template"
    label="Destination Path"
    hint="Specify a destination path. This path specified will be appended to this blog&rsquo;s Site URL."
    show_hint="1">
   <input type="text" name="destination_path_template" value="<mt:var name="destination_path_template" escape="html">" style="width: 100%;" />
+</mtapp:setting>
+
+<mtapp:setting
+   id="import_updated_files"
+   label="Import Updated Files">
+  <input type="checkbox" class="cb" id="import_updated_files" name="import_updated_files" value="1"<mt:if name="import_updated_files"> checked="checked"</mt:if>/> <label for="import_updated_files">If a file found in the Polled Directory location is newer than the asset, import it, updating the original asset.</label>
 </mtapp:setting>
 
 <mtapp:setting
